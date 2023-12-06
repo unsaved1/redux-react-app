@@ -1,26 +1,44 @@
-import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
 
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { fetchHeroes } from '../../actions/heroes';
+import { useHttp } from '../../hooks/http.hook';
+
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
-// Задача для этого компонента:
-// При клике на "крестик" идет удаление персонажа из общего состояния
-// Усложненная задача:
-// Удаление идет и с json файла при помощи метода DELETE
-
 const HeroesList = () => {
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);
+    const filteredHeroesSelector = createSelector(
+        (state) => state.filters.activeFilter,
+        (state) => state.heroes.heroes,
+        (activeFilter, heroes) => {
+            if (activeFilter === 'all') {
+                return heroes;
+            } else {
+                return heroes.filter(item => item.element === activeFilter)
+            }
+        }   
+    );
+
+    // const heroes = useSelector(state => {
+    //     const {heroes} = state.heroes;
+    //     const {activeFilter} = state.filters;
+    //     if (activeFilter === 'all') {
+    //         return heroes;
+    //     } else {
+    //         return heroes.filter(item => item.element === activeFilter)
+    //     }
+    // });
+        
+
+    const heroes = useSelector(filteredHeroesSelector);
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+        dispatch(fetchHeroes(request));
     }, []);
 
     if (heroesLoadingStatus === "loading") {

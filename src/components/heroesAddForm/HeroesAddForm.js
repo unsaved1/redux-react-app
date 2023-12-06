@@ -1,18 +1,6 @@
-
-
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uiid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
-// Дополнительно:
-// Элементы <option></option> желательно сформировать на базе
-// данных из фильтров
-
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {heroesAdding, heroesAdded} from '../../actions';
+import {heroesAdded, heroesAdding, heroesDeleted, heroesDeleting} from '../../actions/heroes';
 
 import {v4 as uuid} from 'uuid';
 import { useHttp } from "../../hooks/http.hook";
@@ -22,20 +10,19 @@ const HeroesAddForm = () => {
     const [description, setDescription] = useState('');
     const [element, setElement] = useState('');
     
-    const {heroes} = useSelector(state => state);
+    const heroes = useSelector(state => state.heroes.heroes);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
     const addHero = (e, hero) => {
         e.preventDefault();
+        
         dispatch(heroesAdding());
-
         const updatedHeroes = heroes;
         updatedHeroes.push(hero);
-
-
-        request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero))
-            .then((res) => dispatch(heroesAdded(updatedHeroes)));
+        
+        request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero));
+        dispatch(heroesAdded(updatedHeroes));
     };
 
     return (
@@ -83,7 +70,12 @@ const HeroesAddForm = () => {
                 </select>
             </div>
 
-            <button type="submit" onClick={(e) => addHero(e, {id: uuid(),name, description, element})} className="btn btn-primary">Создать</button>
+            <button 
+                onClick={(e) => addHero(e, {id: uuid(), name, description, element})} 
+                className="btn btn-primary"
+            >
+                Создать
+            </button>
         </form>
     )
 }

@@ -1,18 +1,5 @@
 {
-  "heroes": [
-    {
-      "id": "bfd4fa13-a2e9-471c-bbda-c26a163c2765",
-      "name": "Ильмир",
-      "description": "dsadsa",
-      "element": ""
-    },
-    {
-      "id": "0eccec35-7b0f-42c9-91a8-02db51f6e7fb",
-      "name": "Ильмир",
-      "description": "dsadsa",
-      "element": "earth"
-    }
-  ],
+  "heroes": [],
   "filters": [
     {
       "id": "1",

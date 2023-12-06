@@ -1,10 +1,9 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { heroesDeleted, heroesDeleting } from '../../actions/index';
+import { heroesDeleted, heroesDeleting } from '../../actions/heroes';
 import { useHttp } from "../../hooks/http.hook";
 
 const HeroesListItem = ({name, description, element, id}) => {
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);
+    const heroes = useSelector(state => state.heroes.heroes);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -14,8 +13,7 @@ const HeroesListItem = ({name, description, element, id}) => {
         const updatedHeroes = heroes.filter(item => {
             return item.id !== id
         });
-        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-            .then(res => console.log(res));
+        request(`http://localhost:3001/heroes/${id}`, 'DELETE');
 
         dispatch(heroesDeleting());
         dispatch(heroesDeleted(updatedHeroes));
