@@ -1,0 +1,32 @@
+{
+  "heroes": [
+    {
+      "id": "a75a3c80-300b-40bc-af41-afaf54e6c677",
+      "name": "dssadasda",
+      "description": "asd",
+      "element": ""
+    }
+  ],
+  "filters": [
+    {
+      "name": "all",
+      "className": "btn btn-outline-dark"
+    },
+    {
+      "name": "fire",
+      "className": "btn btn-danger"
+    },
+    {
+      "name": "water",
+      "className": "btn btn-primary"
+    },
+    {
+      "name": "wind",
+      "className": "btn btn-success"
+    },
+    {
+      "name": "earth",
+      "className": "btn btn-secondary"
+    }
+  ]
+}
