@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {heroesAdded, heroesAdding, heroesDeleted, heroesDeleting} from '../../actions/heroes';
+import { heroCreated } from "../heroesList/HeroesSlice";
 
 import {v4 as uuid} from 'uuid';
 import { useHttp } from "../../hooks/http.hook";
@@ -10,19 +10,14 @@ const HeroesAddForm = () => {
     const [description, setDescription] = useState('');
     const [element, setElement] = useState('');
     
-    const heroes = useSelector(state => state.heroes.heroes);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
     const addHero = (e, hero) => {
         e.preventDefault();
         
-        dispatch(heroesAdding());
-        const updatedHeroes = heroes;
-        updatedHeroes.push(hero);
-        
         request('http://localhost:3001/heroes', 'POST', JSON.stringify(hero));
-        dispatch(heroesAdded(updatedHeroes));
+        dispatch(heroCreated(hero));
     };
 
     return (

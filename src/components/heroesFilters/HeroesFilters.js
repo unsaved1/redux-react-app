@@ -3,25 +3,27 @@ import { useState } from "react";
 import {useHttp} from '../../hooks/http.hook';
 
 import { useDispatch, useSelector } from "react-redux";
-import {filtersSetActive, fetchFilters} from '../../actions/filters';
+import { fetchFilters, selectAll } from '../heroesFilters/filterSlice';
+import { fitlerSetActive } from "./filterSlice";
 
 import cn from 'classnames';
 import Spinner from "../spinner/Spinner";
 
 const HeroesFilters = () => {
-    const {filters, filterLoadingStatus} = useSelector(state => state.filters);
+    const filters = useSelector(selectAll);
+    const {filterLoadingStatus} = useSelector(state => state.filters);
     const dispatch                       = useDispatch();
 
     const [isActive, setIsActive]        = useState();
     const {request}                      = useHttp();
 
     useEffect(() => {
-        dispatch(fetchFilters(request));
+        dispatch(fetchFilters());
     }, [])
 
     const onFilterHeroes = (element, id) => {
         setIsActive(id);
-        dispatch(filtersSetActive(element));
+        dispatch(fitlerSetActive(element));
     }
 
     const filterItems = filters.length > 0 

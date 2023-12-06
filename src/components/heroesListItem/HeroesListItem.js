@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { heroesDeleted, heroesDeleting } from '../../actions/heroes';
+import { heroDeleted } from "../heroesList/HeroesSlice";
 import { useHttp } from "../../hooks/http.hook";
 
 const HeroesListItem = ({name, description, element, id}) => {
@@ -10,13 +10,8 @@ const HeroesListItem = ({name, description, element, id}) => {
     let elementClassName;
 
     const deleteHeroes = (heroes, id) => {
-        const updatedHeroes = heroes.filter(item => {
-            return item.id !== id
-        });
         request(`http://localhost:3001/heroes/${id}`, 'DELETE');
-
-        dispatch(heroesDeleting());
-        dispatch(heroesDeleted(updatedHeroes));
+        dispatch(heroDeleted(id));
     };
 
     switch (element) {

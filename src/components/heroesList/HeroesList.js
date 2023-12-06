@@ -1,44 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
 
-import { fetchHeroes } from '../../actions/heroes';
-import { useHttp } from '../../hooks/http.hook';
+import { fetchHeroes, filteredHeroesSelector } from '../heroesList/HeroesSlice';
 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-    const filteredHeroesSelector = createSelector(
-        (state) => state.filters.activeFilter,
-        (state) => state.heroes.heroes,
-        (activeFilter, heroes) => {
-            if (activeFilter === 'all') {
-                return heroes;
-            } else {
-                return heroes.filter(item => item.element === activeFilter)
-            }
-        }   
-    );
-
-    // const heroes = useSelector(state => {
-    //     const {heroes} = state.heroes;
-    //     const {activeFilter} = state.filters;
-    //     if (activeFilter === 'all') {
-    //         return heroes;
-    //     } else {
-    //         return heroes.filter(item => item.element === activeFilter)
-    //     }
-    // });
-        
-
     const heroes = useSelector(filteredHeroesSelector);
     const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
-    const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(fetchHeroes(request));
+        dispatch(fetchHeroes());
     }, []);
 
     if (heroesLoadingStatus === "loading") {
