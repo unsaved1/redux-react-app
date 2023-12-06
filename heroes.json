@@ -1,30 +1,41 @@
 {
   "heroes": [
     {
-      "id": "a75a3c80-300b-40bc-af41-afaf54e6c677",
-      "name": "dssadasda",
-      "description": "asd",
+      "id": "bfd4fa13-a2e9-471c-bbda-c26a163c2765",
+      "name": "Ильмир",
+      "description": "dsadsa",
       "element": ""
+    },
+    {
+      "id": "0eccec35-7b0f-42c9-91a8-02db51f6e7fb",
+      "name": "Ильмир",
+      "description": "dsadsa",
+      "element": "earth"
     }
   ],
   "filters": [
     {
+      "id": "1",
       "name": "all",
       "className": "btn btn-outline-dark"
     },
     {
+      "id": "2",
       "name": "fire",
       "className": "btn btn-danger"
     },
     {
+      "id": "3",
       "name": "water",
       "className": "btn btn-primary"
     },
     {
+      "id": "4",
       "name": "wind",
       "className": "btn btn-success"
     },
     {
+      "id": "5",
       "name": "earth",
       "className": "btn btn-secondary"
     }

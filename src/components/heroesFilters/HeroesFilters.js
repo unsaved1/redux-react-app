@@ -9,23 +9,51 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import {useHttp} from '../../hooks/http.hook';
-import { v4 as uuid } from "uuid";
-import FilterBtn from "./FilterBtn";
+
+import { useDispatch, useSelector } from "react-redux";
+import {heroesFiltering, heroesFiltered} from '../../actions'
+
+import cn from 'classnames';
 
 const HeroesFilters = () => {
-    const [heroesFiltered, setHeroesFiltered] = useState([]);
     const [filters, setFilters] = useState([]);
+    const [isActive, setIsActive] = useState();
+
+    const {heroes, heroesLoadingStatus} = useSelector(state => state);
+    const dispatch = useDispatch();
+
 
     const {request} = useHttp();
-    
+
     useEffect(() => {
         request('http://localhost:3001/filters')
             .then(res => setFilters(res));
     }, [])
 
+    const onFilterHeroes = (element, id) => {
+        setIsActive(id);
+        dispatch(heroesFiltering());
+        const term = element === 'all'
+                         ? '' 
+                         : `element=${element}`;
+
+        request(`http://localhost:3001/heroes?${term}`)
+            .then(res => dispatch(heroesFiltered(res)));
+    }
+
+
     const filterItems = filters.length > 0 
                             ? filters.map(item => {
-                                return <FilterBtn key={uuid()} className={item.className} name={item.name}/>
+                                const {className, name, id} = item;
+                                return <button 
+                                            key={id}
+                                            className={cn(className, {
+                                                ['active']: isActive === id
+                                            })}
+                                            onClick={() => onFilterHeroes(name, id)}
+                                    >
+                                        {name}
+                                    </button>
                             }) 
                             : null;
                             

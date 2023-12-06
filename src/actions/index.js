@@ -30,6 +30,20 @@ export const heroesAdded = (heroes) => {
     }
 }
 
+export const heroesFiltering = () => {
+    return {
+        type: 'HEROES_FILTERING'
+    }
+}
+
+
+export const heroesFiltered = (heroes) => {
+    return {
+        type: 'HEROES_FILTERED',
+        payload: heroes
+    }
+}
+
 export const heroesDeleting = (heroes) => {
     return {
         type: 'HEROES_DELETING',

@@ -17,6 +17,8 @@ const reducer = (state = initialState, action) => {
                 heroes: action.payload,
                 heroesLoadingStatus: 'idle'
             }
+
+            
         case 'HEROES_ADDING':
             return {
                 ...state,
@@ -28,6 +30,21 @@ const reducer = (state = initialState, action) => {
                 heroes: action.payload,
                 heroesLoadingStatus: 'idle'
             }
+
+
+        case 'HEROES_FILTERING':
+            return {
+                ...state,
+                heroesLoadingStatus: 'loading'
+            }
+        case 'HEROES_FILTERED':
+            return {
+                ...state,
+                heroes: action.payload,
+                heroesLoadingStatus: 'idle'
+            }
+
+
         case 'HEROES_DELETING':
             return {
                 ...state,
@@ -40,6 +57,8 @@ const reducer = (state = initialState, action) => {
                 heroes: action.payload,
                 heroesLoadingStatus: 'idle'
             }
+
+
         case 'HEROES_FETCHING_ERROR':
         return {
             ...state,
